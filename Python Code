@@ -61,8 +61,8 @@ ax3.scatter([SolnOsc2[math.floor(tStop/tInc)-1,1]],[SolnOsc2[math.floor(tStop/tI
 #plt.savefig("WvsV with sync.png", dpi=1000)
 
 
-plt.close()
-plt.plot(t,SolnOsc1[:,0])
+#plt.close()
+#plt.plot(t,SolnOsc1[:,0])
 
 #retrieved=transmit-SolnOsc2[:,0]
 
