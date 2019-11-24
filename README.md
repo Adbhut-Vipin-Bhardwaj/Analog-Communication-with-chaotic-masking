@@ -1,2 +1,2 @@
 # EE225-Project
-Chaotic systems
+Simulations of Chaotic systems and possible use in communication.
