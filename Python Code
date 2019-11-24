@@ -38,7 +38,7 @@ def f2(y2,t,params2):
     ur,vr,wr=y2
     sigma,r,b=params2[0],params2[1],params2[2]
     u=params2[3]
-    i=math.floor(t/tInc)
+    i=math.floor(t/tInc)        #math.floor used only to remove typecasting error.
     derivs=[sigma*(vr-ur), r*u[i]-vr-20*u[i]*wr, 5*u[i]*vr-b*wr]
     return derivs
 
@@ -61,8 +61,8 @@ ax3.scatter([SolnOsc2[math.floor(tStop/tInc)-1,1]],[SolnOsc2[math.floor(tStop/tI
 #plt.savefig("WvsV with sync.png", dpi=1000)
 
 
-#plt.close()
-#plt.plot(t,SolnOsc1[:,0])
+plt.close()
+plt.plot(t,transmit-SolnOsc2[:,0])
 
 #retrieved=transmit-SolnOsc2[:,0]
 
