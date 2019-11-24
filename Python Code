@@ -1,0 +1,70 @@
+import math
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.integrate import odeint
+
+def f(y,t,params):
+    u,v,w=y
+    sigma,r,b=params
+    derivs=[sigma*(v-u),r*u-v-20*u*w, 5*u*v-b*w]
+    return derivs
+
+params=[16,45.6,4]
+y0Osc1=[1,1,1]
+
+tStop=400
+tInc=0.05
+t=np.arange(0,tStop,tInc)
+
+SolnOsc1=odeint(f,y0Osc1,t,args=(params, ))
+
+Sync=plt.figure(1)
+ax1=Sync.add_subplot(311)
+ax1.plot(SolnOsc1[:,1],SolnOsc1[:,2],color='black', lw='0.025')
+ax1.scatter([SolnOsc1[0,1]],[SolnOsc1[0,2]] , c='red')
+ax1.scatter([SolnOsc1[math.floor(tStop/tInc)-1,1]],[SolnOsc1[math.floor(tStop/tInc)-1,2]] , c='blue')
+
+
+#####  Message  #####
+#m=0.5*np.sin(t)
+
+transmit=SolnOsc1[:,0]
+
+
+#####  Oscillator 2 Starts  #####
+
+
+def f2(y2,t,params2):
+    ur,vr,wr=y2
+    sigma,r,b=params2[0],params2[1],params2[2]
+    u=params2[3]
+    i=math.floor(t/tInc)
+    derivs=[sigma*(vr-ur), r*u[i]-vr-20*u[i]*wr, 5*u[i]*vr-b*wr]
+    return derivs
+
+params2=[16,45.6,4,transmit]
+y0Osc2=[1.5,1.5,1.5]
+
+SolnOsc2=odeint(f2,y0Osc2,t,args=(params2, ))
+
+ax2=Sync.add_subplot(312)
+ax2.plot(SolnOsc2[:,1],SolnOsc2[:,2],color='black', lw='0.025')
+ax2.scatter([SolnOsc2[0,1]],[SolnOsc2[0,2]] , c='red')
+ax2.scatter([SolnOsc2[math.floor(tStop/tInc)-1,1]],[SolnOsc2[math.floor(tStop/tInc)-1,2]] , c='blue')
+
+ax3=Sync.add_subplot(313, xlim=[-3,3], ylim=[0,4])
+ax3.scatter([SolnOsc1[0,1]],[SolnOsc1[0,2]] , c='red')
+ax3.scatter([SolnOsc1[math.floor(tStop/tInc)-1,1]],[SolnOsc1[math.floor(tStop/tInc)-1,2]] , c='blue')
+ax3.scatter([SolnOsc2[0,1]],[SolnOsc2[0,2]] , c='red')
+ax3.scatter([SolnOsc2[math.floor(tStop/tInc)-1,1]],[SolnOsc2[math.floor(tStop/tInc)-1,2]] , c='blue')
+
+#plt.savefig("WvsV with sync.png", dpi=1000)
+
+
+plt.close()
+plt.plot(t,SolnOsc1[:,0])
+
+#retrieved=transmit-SolnOsc2[:,0]
+
+#plt.plot(t,retrieved)
+
